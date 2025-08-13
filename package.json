@@ -1,0 +1,28 @@
+{
+  "name": "node-llm-router",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file=.env src/server.js",
+    "start": "NODE_ENV=production node --env-file=.env src/server.js",
+    "train": "node --env-file=.env src/classifier/train.js",
+    "prepare:data": "node src/data/prepare.js",
+    "download:lmsys": "node src/data/download_lmsys.js",
+    "process:lmsys": "node src/data/process_lmsys.js",
+    "test": "node --env-file=.env src/test.js"
+  },
+  "dependencies": {
+    "@dqbd/tiktoken": "^1.0.22",
+    "@huggingface/hub": "^2.4.1",
+    "@tensorflow/tfjs-node": "^4.20.0",
+    "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.5.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ioredis": "^5.4.1",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.57.3",
+    "parquetjs-lite": "^0.8.7"
+  }
+}

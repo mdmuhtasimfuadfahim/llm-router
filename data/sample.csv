@@ -1,0 +1,9 @@
+text,label
+What's the capital of France?,0
+Explain Big-O of quicksort and prove average-case.,1
+Tell me a joke about databases.,0
+Debug this Python stack trace: ValueError: shape mismatch...,1
+Summarize today's weather in two sentences.,0
+Write SQL to join three tables and explain why LEFT JOIN is needed.,1
+Who won the world cup in 2018?,0
+Derive the gradient of cross-entropy loss for softmax.,1
