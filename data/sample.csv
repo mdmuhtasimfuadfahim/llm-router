@@ -1,9 +1,20 @@
 text,label
-What's the capital of France?,0
-Explain Big-O of quicksort and prove average-case.,1
-Tell me a joke about databases.,0
-Debug this Python stack trace: ValueError: shape mismatch...,1
-Summarize today's weather in two sentences.,0
-Write SQL to join three tables and explain why LEFT JOIN is needed.,1
-Who won the world cup in 2018?,0
-Derive the gradient of cross-entropy loss for softmax.,1
+What time is it in New York?,0
+Implement a distributed consensus algorithm like Raft and explain Byzantine fault tolerance.,1
+Recommend a good pizza place nearby.,0
+"Design a microservices architecture with event sourcing, CQRS, and explain CAP theorem trade-offs.",1
+How do I boil an egg?,0
+Optimize this recursive Fibonacci function using dynamic programming and analyze space complexity.,1
+What's your favorite color?,0
+Build a neural network from scratch using backpropagation and explain vanishing gradients problem.,1
+Tell me about cats.,0
+Implement MapReduce algorithm for large-scale data processing with fault tolerance mechanisms.,1
+What's the weather like?,0
+Create a compiler for a functional programming language with type inference and lambda calculus.,1
+How tall is the Eiffel Tower?,0
+Design a blockchain consensus mechanism that addresses scalability trilemma.,1
+Name three fruits.,0
+Implement a garbage collector using generational collection and explain memory fragmentation.,1
+
+
+
