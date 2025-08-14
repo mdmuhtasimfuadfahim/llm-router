@@ -35,18 +35,22 @@ app.post("/chat", async (req, res) => {
     const prompt = String(req.body?.prompt || "");
     if (!prompt) return res.status(400).json({ error: "prompt required" });
 
+    // Checking from cache if the response is already cached
     const k = keyFor(prompt);
     const cached = await cacheGet(k);
+    // returning response from cache
     if (cached) return res.json({ ...cached, cache_hit: true });
 
-    console.log("Classifying prompt:", prompt.substring(0, 100) + "...");
+    // Classifying the prompt
     const cls = await classify(prompt);
-    console.log("Classification result:", cls, typeof cls);
 
+    // Selecting model based on classification
     const model = cls === 1 ? HIGH : LOW;
-    console.log("Selected model:", model, "based on classification:", cls);
 
+    // Asking the model for a response
     const out = await ask(model, prompt);
+
+    // Caching the response
     await cacheSetEx(k, TTL, { ...out, cache_hit: false });
     res.json(out);
   } catch (e) {
