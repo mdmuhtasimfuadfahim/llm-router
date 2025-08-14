@@ -16,4 +16,4 @@ const rows = [
 
 const output = fs.createWriteStream("data/sample.csv");
 stringify(rows, { header: true }).pipe(output); // Adjusted usage
-console.log("Wrote data/sample.csv");
+console.log("Wrote data in /data/sample.csv");
