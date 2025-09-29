@@ -5,37 +5,37 @@ let model = null;
 
 export async function loadOrNull() {
   if (model) return model;
-  if (fs.existsSync("model/model.json")) {
+  if (fs.existsSync("/model/model.json")) {
     model = await tf.loadLayersModel("file://model/model.json");
   }
   return model;
 }
 
-// Enhanced heuristic for three-tier classification
 export function heuristicComplexity(text) {
   const q = (text || "").toLowerCase();
 
-  // Technical/programming signals (high complexity)
   const hardSignals = [
     "algorithm", "big-o", "complexity", "optimization", "architecture",
     "microservices", "distributed", "blockchain", "neural network",
     "machine learning", "deep learning", "tensorflow", "pytorch",
     "kubernetes", "docker", "devops", "scalability", "performance",
-    "security", "encryption", "database design", "sql optimization"
+    "security", "encryption", "database design", "sql optimization",
+    "consensus", "byzantine", "fault tolerance", "mapreduce", "compiler",
+    "garbage collector", "lambda calculus", "type inference"
   ];
 
-  // Reasoning/analytical signals (medium complexity)  
   const mediumSignals = [
     "explain", "analyze", "compare", "evaluate", "reasoning", "logic",
     "step-by-step", "prove", "derive", "calculate", "solve", "debug",
     "troubleshoot", "design", "implement", "code", "programming",
-    "function", "class", "api", "framework", "library"
+    "function", "class", "api", "framework", "library", "rest api",
+    "database", "sql", "javascript", "python", "react", "vue"
   ];
 
-  // Simple/factual signals (low complexity)
   const simpleSignals = [
     "what is", "who is", "when", "where", "define", "list", "name",
-    "time", "weather", "hello", "hi", "thanks", "please"
+    "time", "weather", "hello", "hi", "thanks", "please", "height",
+    "tall", "fruits"
   ];
 
   let hardScore = 0;
@@ -54,29 +54,25 @@ export function heuristicComplexity(text) {
     if (q.includes(signal)) simpleScore++;
   });
 
-  // Length-based adjustment
   const length = q.length;
-  if (length > 500) hardScore++;
-  else if (length > 200) mediumScore++;
-  else if (length < 50) simpleScore++;
+  if (length > 500) hardScore += 2;
+  else if (length > 200) mediumScore += 1;
+  else if (length < 50 && simpleScore > 0) simpleScore += 1;
 
-  // Multiple questions or complex punctuation
   const questionCount = (q.match(/\?/g) || []).length;
-  const complexPunct = (q.match(/[{}()[\]^%$#@!~*+=_<>|/\\:;]/g) || []).length;
+  if (questionCount > 1) mediumScore++;
 
-  if (questionCount > 1 || complexPunct > 5) mediumScore++;
+  console.log(`Scores - Hard: ${hardScore}, Medium: ${mediumScore}, Simple: ${simpleScore}`);
 
-  // Decision logic
-  if (hardScore >= 1) return 2; // Hard
-  if (mediumScore >= 1 || (length > 100 && simpleScore === 0)) return 1; // Medium
-  return 0; // Simple
+  if (hardScore >= 1) return 2;
+  if (mediumScore >= 1) return 1;
+  return 0;
 }
 
 export async function classify(text) {
   const m = await loadOrNull();
   if (!m) return heuristicComplexity(text);
 
-  // Enhanced feature extraction for three-tier classification
   const len = Math.min(1000, (text || "").length);
   const punct = (text.match(/[{}()[\]^%$#@!~*+=_<>|/\\?:;.,-]/g) || []).length / Math.max(1, len);
   const wordCount = (text.trim().split(/\s+/) || []).length;
@@ -86,14 +82,11 @@ export async function classify(text) {
   const prediction = await m.predict(x).array();
   x.dispose();
 
-  // Convert model output to three-tier classification
   const output = prediction[0];
   if (Array.isArray(output)) {
-    // Multi-class output
     const maxIndex = output.indexOf(Math.max(...output));
     return maxIndex;
   } else {
-    // Binary output - convert to three-tier
     if (output > 0.7) return 2;
     if (output > 0.3) return 1;
     return 0;

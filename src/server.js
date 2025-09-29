@@ -96,6 +96,7 @@ function getModelFromTrainingData(text) {
 }
 
 function getModelByComplexity(complexity) {
+  console.log('Complexity level:', complexity);
   switch (complexity) {
     case 2:
       return HARD_MODEL;
@@ -122,6 +123,7 @@ app.post("/chat", async (req, res) => {
       fromTrainingData = true;
       console.log(`Found in training data - Label: ${cls} for query: "${prompt}"`);
     } else {
+      console.log("Not found in training data, classifying...");
       cls = await classify(prompt);
       console.log(`Classifier prediction - Label: ${cls} for query: "${prompt}"`);
 
